@@ -1,9 +1,9 @@
-var Contacts = null;
+var Contacts = {contactname: "unknown"};
 execute_ContactApp();
 define(["require", "exports"], function(require, exports){
    exports.value = Contacts.contactname;
    exports.getContacts = function () {
-        return (Contacts);
+       return (Contacts);
    }
    exports.getObjects = function () {
         return (Contacts.objects);
@@ -13,9 +13,6 @@ define(["require", "exports"], function(require, exports){
    }
    exports.getResults = function () {
         return (Contacts.results);
-   }
-   exports.initContacts = function (component) {
-        initContacts(component);
    }
    exports.readSingleFile = function (obj, suffix) {
         readSingleFile(obj, suffix);
@@ -47,8 +44,8 @@ var ContactManager = {
 }
 ContactManager.isDevice();
 function execute_ContactApp() {
-    Contacts = this;
-//    Contacts.scope = $scope;
+    console.log(JSON.stringify(Contacts));
+    Contacts = {};
     Contacts.component = null;
     Contacts.contactname = '';
     Contacts.results = [];
@@ -59,7 +56,8 @@ function execute_ContactApp() {
     Contacts.update = function () {
 //        Contacts.scope.$apply();
         try {
-            Contacts.component.updateObjects(Contacts.component);
+            //alert('Contacts.update');
+            Contacts.component.updateObjects();
         } catch (e) {
             console.log(e.toString())
         }
@@ -105,7 +103,7 @@ function execute_ContactApp() {
                     }
                 } while (!done);
             }
-            initImages(false);
+            2(false);
         } catch (e) {
             console.log('refresh ' + e.toString());
         }
@@ -163,7 +161,7 @@ function execute_ContactApp() {
         } catch (e) {
             console.log(e);
         }
-        $.ajax({ 
+        $.ajax({
             url: Contacts.weburl + 'images',
             type: 'POST',
             dataType: 'json',
@@ -394,7 +392,7 @@ function execute_ContactApp() {
             if (!obj.hasOwnProperty(property)) {
                 continue;
             }
-            if (exclusions.has(property)) {
+            if (Contacts.exclusions.has(property)) {
                 continue;
             }
             //console.log("Contacts.getTemplate(), [" + property + "]=[" + obj[property] + "]");
@@ -437,13 +435,12 @@ function execute_ContactApp() {
 }
 
 $(document).ready(function() {
-    // window.setTimeout(initContacts, 0);
+    window.setTimeout(initContacts, 0);
 });
 
-function initContacts(component) {
-    Contacts.component = component;
+function initContacts() {
     function success(data) {
-        console.log(JSON.stringify(data));
+        //console.log(JSON.stringify(data));
         Contacts.objects = data;
         Contacts.objects.forEach( function (obj) {
             //console.log(JSON.stringify(obj));
@@ -481,7 +478,7 @@ function initContacts(component) {
             Contacts.getData("/assets/data.json", "", success,
             function (err) {
                 alert('Unable to retrieve contacts; ' + err);
-                window.setTimeout(initContacts, 15000);
+                window.setTimeout(initContacts(), 15000);
             });
         });
     });
@@ -529,6 +526,7 @@ function initImages(flag) {
             element.setAttribute('src', getsrc($(element), element.getAttribute('data-src')));
         }
     }
+    //alert('contacts');
     if (Contacts.objects.length == 0) {
         Contacts.results = [];
         Contacts.results.push({
@@ -541,13 +539,14 @@ function initImages(flag) {
                     prefix: 'ok',
                     name: 'Continue',
                     method: function () {
-                        console.log("ModalObj onlcick()");
+                        console.log("ModalObj onclick()");
                         Contacts.results = [];
                         modal.hide()
                     }
                 }]
             ));
         }
+        //alert('create');
         Contacts.modalobj = create();
         Contacts.update();
         Contacts.modalobj.show()
@@ -596,7 +595,7 @@ function readSingleFile(obj, tag) {
             console.log('contents.length=[' + contents.length + ']');
             if (typeof(obj) === 'undefined') {
                 alert('Contact key is undefined!');
-            } else 
+            } else
             if (contents.length > maxsize) {
                 alert('Image is too large to save! maximum size is [' + maxsize + ']');
             } else {

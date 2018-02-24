@@ -1,8 +1,9 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import 'zone.js/dist/zone';
+import { ToolbarComponent } from './toolbar/toolbar.component';
+import 'zone.js/dist/zone';
 import * as ContactObj from 'assets/contacts.js';
 declare var System: any;
-ContactObj.getContacts();
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -17,6 +18,7 @@ export class AppComponent implements OnInit {
     results = [];
     objclass = 'text-muted';
     create() {
+        console.log('AppComponent.create();');
         this.Contacts.create(this.contactname);
     }
     updateObjects () {
@@ -28,6 +30,7 @@ export class AppComponent implements OnInit {
         ContactObj.readSingleFile(obj, tag);
     }
     ngOnInit() {
-        ContactObj.initContacts(this);
+        console.log('AppComponent.ngOnInit();' + JSON.stringify(this.Contacts));
+        this.Contacts.component = this;
     }
 }

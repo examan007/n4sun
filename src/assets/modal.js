@@ -1,4 +1,4 @@
-function ModalObj(id, actions) { 
+function ModalObj(id, actions) {
     var modal = {};
     modal.actions = actions;
     modal.id = id;
@@ -45,3 +45,4 @@ function ModalObj(id, actions) {
     }
     return (modal);
 }
+
