@@ -3,7 +3,7 @@ execute_ContactApp();
 define(["require", "exports"], function(require, exports){
    exports.value = Contacts.contactname;
    exports.getContacts = function () {
-       return (Contacts);
+        return (Contacts);
    }
    exports.getObjects = function () {
         return (Contacts.objects);
@@ -13,6 +13,10 @@ define(["require", "exports"], function(require, exports){
    }
    exports.getResults = function () {
         return (Contacts.results);
+   }
+   exports.initContacts = function (component) {
+       Contacts.component = component;
+       initContacts();
    }
    exports.readSingleFile = function (obj, suffix) {
         readSingleFile(obj, suffix);
@@ -44,8 +48,6 @@ var ContactManager = {
 }
 ContactManager.isDevice();
 function execute_ContactApp() {
-    console.log(JSON.stringify(Contacts));
-    Contacts = {};
     Contacts.component = null;
     Contacts.contactname = '';
     Contacts.results = [];
@@ -56,8 +58,7 @@ function execute_ContactApp() {
     Contacts.update = function () {
 //        Contacts.scope.$apply();
         try {
-            //alert('Contacts.update');
-            Contacts.component.updateObjects();
+            Contacts.component.updateObjects(Contacts.component);
         } catch (e) {
             console.log(e.toString())
         }
@@ -103,7 +104,7 @@ function execute_ContactApp() {
                     }
                 } while (!done);
             }
-            2(false);
+            initImages(false);
         } catch (e) {
             console.log('refresh ' + e.toString());
         }
@@ -433,11 +434,6 @@ function execute_ContactApp() {
         return (temp);
     }
 }
-
-$(document).ready(function() {
-    window.setTimeout(initContacts, 0);
-});
-
 function initContacts() {
     function success(data) {
         //console.log(JSON.stringify(data));
@@ -459,7 +455,7 @@ function initContacts() {
             // console.log("template=[" + JSON.stringify(Contacts.templates[obj.Key]))
             try {
 			    var tag = '#' + obj.Key;
-			    console.log(tag);
+			    //console.log(tag);
 			    $(tag).hide();
             } catch (e) {
                 console.log(e.toString());
@@ -478,7 +474,7 @@ function initContacts() {
             Contacts.getData("/assets/data.json", "", success,
             function (err) {
                 alert('Unable to retrieve contacts; ' + err);
-                window.setTimeout(initContacts(), 15000);
+                window.setTimeout(initContacts, 15000);
             });
         });
     });
@@ -526,7 +522,6 @@ function initImages(flag) {
             element.setAttribute('src', getsrc($(element), element.getAttribute('data-src')));
         }
     }
-    //alert('contacts');
     if (Contacts.objects.length == 0) {
         Contacts.results = [];
         Contacts.results.push({
@@ -539,14 +534,13 @@ function initImages(flag) {
                     prefix: 'ok',
                     name: 'Continue',
                     method: function () {
-                        console.log("ModalObj onclick()");
+                        console.log("ModalObj onlcick()");
                         Contacts.results = [];
                         modal.hide()
                     }
                 }]
             ));
         }
-        //alert('create');
         Contacts.modalobj = create();
         Contacts.update();
         Contacts.modalobj.show()

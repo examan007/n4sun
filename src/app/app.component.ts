@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
         ContactObj.readSingleFile(obj, tag);
     }
     ngOnInit() {
-        console.log('AppComponent.ngOnInit();' + JSON.stringify(this.Contacts));
-        this.Contacts.component = this;
+        console.log('AppComponent.ngOnInit();');
+        ContactObj.initContacts(this);
     }
 }
