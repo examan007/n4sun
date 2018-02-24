@@ -471,7 +471,7 @@ function initContacts() {
     function (err) {
         Contacts.getData("/snapshot", "", success,
         function (err) {
-            Contacts.getData("/assets/data.json", "", success,
+            Contacts.getData("/data/data.json", "", success,
             function (err) {
                 alert('Unable to retrieve contacts; ' + err);
                 window.setTimeout(initContacts, 15000);
