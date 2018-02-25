@@ -17,10 +17,6 @@ export class AppComponent implements OnInit {
     template = ContactObj.getTemplate();
     results = [];
     objclass = 'text-muted';
-    create() {
-        console.log('AppComponent.create();');
-        this.Contacts.create(this.contactname);
-    }
     updateObjects () {
         console.log('In Angular is ' + NgZone.isInAngularZone());
         this.objects = [...ContactObj.getObjects()];

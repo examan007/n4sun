@@ -1,3 +1,18 @@
-<p>
-  toolbar works!
-</p>
+<div id="Toolbar" class="smalltool" ng-app="routerApp">
+  <div ng-controller="UIRouterController as UIRouter" class="container">
+    <div id="Toolbar-Table">
+      <div *ngFor="let obj of UIRouter.objects">
+        <button id="Toolbar-Button-{{obj.Key}}"
+                class="Toolbar-Button"
+                uiSref="{{obj.Name}}"
+                uiSrefActive="selected">
+          <span id="Toolbar-Key-{{obj.Key}}"
+                class="Toolbar-Class-{{obj.Key}">
+            {{obj.Name}}
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <ui-view></ui-view>
+</div>
