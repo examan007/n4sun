@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-toolbar',
-  templateUrl: './toolbar.component.html',
+  templateUrl: './toolbar.component.pug',
   styleUrls: ['./toolbar.component.css']
 })
 export class ToolbarComponent implements OnInit {

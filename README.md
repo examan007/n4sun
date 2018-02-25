@@ -3,6 +3,8 @@ Simple contact manager based on Bootstrap, JQuery, Angular 4, Node, and  Express
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.1.
 
+https://medium.com/@MarkPieszak/using-pug-or-jade-templates-with-the-angular-cli-9e37334db5bc
+
 Run:
 
     `git clone https://github.com/examan007/n4contact.git <working directory>`

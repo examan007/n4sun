@@ -1,19 +1,33 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { states } from './app.routes';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpModule } from '@angular/http';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { UIRouterModule } from "@uirouter/angular";
+import { HomeComponent } from './components';
+import { AboutComponent } from './components';
+import { ContactComponent } from './components';
 
 @NgModule({
   declarations: [
     AppComponent,
+    HomeComponent,
+    AboutComponent,
+    ContactComponent,
     ToolbarComponent
   ],
   imports: [
+    BrowserModule,
     FormsModule,
-    BrowserModule
+    ReactiveFormsModule,
+    HttpModule,
+    UIRouterModule.forRoot({ states: states, useHash: true })
   ],
-  providers: [],
-  bootstrap: [AppComponent],
+  providers: [/*GithubService*/],
+  bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
