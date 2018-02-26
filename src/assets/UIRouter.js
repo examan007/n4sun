@@ -96,7 +96,7 @@ function execute_routerApp() {
     }
     UIRouter.CheckState = '';
     UIRouter.checkClick=  function (event, obj) {
-        if (AutoZoomObj.isDevice == false) { } else
+        if (ContactManager.isDevice == false) { } else
         if (obj.Key === UIRouter.CheckState) { } else {
             event.preventDefault();
             UIRouter.CheckState = obj.Key;

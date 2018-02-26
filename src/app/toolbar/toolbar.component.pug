@@ -1,7 +1,15 @@
-div
+div(id="Toolbar")
   nav
-    a(uiSref="home", uiSrefActive="active") Home |
-    a(uiSref="about", uiSrefActive="active") About |
-    a(uiSref="contact", uiSrefActive="active") Contact Us
+    table(id="Toolbar-Table")
+      tr
+       td(*ngFor="let obj of UIRouter.objects")
+        button(
+         id="Toolbar-Button-{{obj.Key}}"
+         class="Toolbar-Button"
+         uiSref="{{obj.Key}}",
+         uiSrefActive="active")
+          span(
+           id="Toolbar-Key-{{obj.Key}}"
+           class="Toolbar-Class-{{obj.Key}}") {{obj.Name}}
   main
     ui-view

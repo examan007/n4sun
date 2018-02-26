@@ -16,6 +16,8 @@ define(["require", "exports"], function(require, exports){
    }
    exports.initContacts = function (component) {
        Contacts.component = component;
+       Contacts.Manager = component.getManager();
+       Contacts.Manager.isDevice();
        initContacts();
    }
    exports.readSingleFile = function (obj, suffix) {
@@ -25,29 +27,8 @@ define(["require", "exports"], function(require, exports){
     return (Contacts.templates);
    }
 });
-var ContactManager = {
-    test: '1234',
-    getController: function () {
-        return (Contacts);
-    },
-    DeviceType: false,
-    isDevice: function () {
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-            console.log('DeviceType is set for device!')
-            ContactManager.DeviceType = true;
-        }
-        return (ContactManager.DeviceType);
-    },
-    setToolTip: function () {
-        if (ContactManager.DeviceType == false) {
-            $('[data-toggle="tooltip"]').tooltip();
-            $('[rel=tooltip]').tooltip({ trigger: "hover" });
-            hideTooltips();
-        }
-    }
-}
-ContactManager.isDevice();
 function execute_ContactApp() {
+    Contacts.Manager = null;
     Contacts.component = null;
     Contacts.contactname = '';
     Contacts.results = [];
@@ -233,7 +214,7 @@ function execute_ContactApp() {
                 method: complete(obj)
             }]
         );
-        ContactManager.setToolTip();
+        Contacts.Manager.setToolTip();
         Contacts.update();
         modalobj.show();
         function complete (obj) {
@@ -305,7 +286,7 @@ function execute_ContactApp() {
                         var key = obj.Key;
                         return (function () {
                             try {
-                                ContactManager.setToolTip();
+                                Contacts.Manager.setToolTip();
                                 $('#' + key).show();
                             } catch (e) {
                                 console.log('create=' + e.toString());
@@ -481,7 +462,7 @@ function initContacts() {
 }
 function initImages(flag) {
     console.log('initImages ...');
-    ContactManager.setToolTip();
+    Contacts.Manager.setToolTip();
     $('button').click(function(e) {
         e.preventDefault();
     });
@@ -561,7 +542,7 @@ function toggleEdit(obj) {
     } catch (e) {
         console.log('toggleEdit' + e.toString());
     }
-    ContactManager.setToolTip();
+    Contacts.Manager.setToolTip();
 }
 
 
@@ -577,29 +558,3 @@ function displayContents(contents, key) {
     Contacts.update();
 }
 
-function hideTooltips () {
-    try {
-        var HasTooltip = $('.hastooltip');
-        HasTooltip.on('click', function(e) {
-        e.preventDefault();
-        var isShowing = $(this).data('isShowing');
-        HasTooltip.removeData('isShowing');
-        if (isShowing !== 'true')
-        {
-            HasTooltip.not(this).tooltip('hide');
-            $(this).data('isShowing', "true");
-            $(this).tooltip('show');
-        }
-        else
-        {
-            $(this).tooltip('hide');
-        }
-
-        }).tooltip({
-        animation: true,
-        trigger: 'manual'
-        });
-    } catch (e) {
-        console.log('hideToolTips ' + e.toString());
-    }
-}

@@ -1,9 +1,9 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import 'zone.js/dist/zone';
 import { ToolbarComponent } from './toolbar/toolbar.component';
-import 'zone.js/dist/zone';
 import * as ContactObj from 'assets/contacts.js';
 declare var System: any;
+declare var require: any;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -11,7 +11,8 @@ declare var System: any;
 })
 export class AppComponent implements OnInit {
     title = 'N4Contact';
-    Contacts = ContactObj.getContacts();
+    Manager = require('./common/contactmanager.js').getManager();
+    Contacts = ContactObj.getContacts();1
     contactname = ContactObj.value;
     objects = [...ContactObj.getObjects()];
     template = ContactObj.getTemplate();
@@ -28,5 +29,8 @@ export class AppComponent implements OnInit {
     ngOnInit() {
         console.log('AppComponent.ngOnInit();');
         ContactObj.initContacts(this);
+    }
+    getManager() {
+        return (this.Manager):
     }
 }

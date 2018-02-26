@@ -2,7 +2,7 @@ import { Component, NgZone, OnInit } from '@angular/core';
 import * as UIRouterModule from 'assets/UIRouter.js';
 @Component({
   selector: 'app-toolbar',
-  templateUrl: './toolbar.component.html',
+  templateUrl: './toolbar.component.pug',
   styleUrls: ['./toolbar.component.css']
 })
 export class ToolbarComponent implements OnInit {
