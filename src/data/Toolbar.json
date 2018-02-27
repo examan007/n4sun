@@ -1,0 +1,30 @@
+{
+	"map" :
+	[
+    {
+      "Key": "home",
+      "Title": "",
+      "Name": "Search",
+      "Filter": "",
+      "Table": "",
+      "Value": "Search"
+    },
+    {
+      "Key": "about",
+      "Title": "",
+      "Name": "Booking",
+      "Filter": "",
+      "Table":  "",
+      "Value": "Booking"
+    },
+    {
+      "Key": "contact",
+      "Title": "",
+      "Name": "Account",
+      "Filter": "",
+      "Table": "",
+      "Value": "Account"
+    }
+
+	]
+}

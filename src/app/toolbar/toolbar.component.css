@@ -4,12 +4,6 @@
 #Toolbar {
     overflow: hidden;
 }
-#Toolbar-Option {
-    display: none;
-}
-.Toolbar-Template {
-    display: none;
-}
 .Toolbar-Button:hover {
    color: #000080;
    background-color: #2B65EC;
@@ -21,7 +15,6 @@
     color: #8E35EF;
     border-color: darkgoldenrod;
     font-size: x-large;
-    height: 50px;
 }
 .Toolbar-Button-Selected:hover {
     color: #000080;
@@ -45,7 +38,6 @@
     border-color: #8E35EF;
     font-weight: bold;
     font-size: x-large;
-    height: 50px;
 }
 .Toolbar-Button-Selected {
     width: 100%;
@@ -58,12 +50,70 @@
     border-color: #8E35EF;
     font-weight: bold;
     font-size: x-large;
-    height: 50px;
 }
 #Toolbar-Table {
     table-layout:fixed;
     width: 96%;
     margin-left: 2%;
     margin-top: 2%;
-    margin-bottom: 1%;
+    align: top;
+    font-size: x-large;
+    position: absolute;
+    z-index: 10;
+}
+.Toolbar-Data {
+    vertical-align: top;
+}
+
+.selected {
+    width: 100%;
+    background-color: transparent;
+    color: #000080;
+    border: none;
+    border-top: solid;
+    border-left: solid;
+    border-right: solid;
+    border-color: darkgoldenrod;
+    font-weight: bold;
+}
+.activeobj {
+    width: 100%;
+    background-color: transparent;
+    color: #000080;
+    border: none;
+    border-top: solid;
+    border-left: solid;
+    border-right: solid;
+    border-color: darkgoldenrod;
+    font-weight: bold;
+}
+button:focus {
+    outline:0;
+}
+.Dropdown-Data {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+.Dropdown-List {
+     padding: 0;
+     list-style-type: none;
+}
+.Dropdown-Option {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+.Dropdown-Button:hover {
+   color: #000080;
+   background-color: #2B65EC;
+   cursor: pointer;
+}
+.Dropdown-Button {
+    width: 100%;
+    background-color: #000080;
+    color: #8E35EF;
+    border-color: darkgoldenrod;
 }

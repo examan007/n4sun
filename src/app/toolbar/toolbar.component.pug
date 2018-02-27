@@ -2,11 +2,13 @@ div(id="Toolbar")
   nav
     table(id="Toolbar-Table")
       tr
-       td(*ngFor="let obj of UIRouter.objects")
+       td(
+        *ngFor="let obj of UIRouter.objects"
+        )
         button(
          id="Toolbar-Button-{{obj.Key}}"
          class="Toolbar-Button"
-         uiSref="{{obj.Key}}",
+         uiSref="{{obj.Key}}"
          uiSrefActive="active")
           span(
            id="Toolbar-Key-{{obj.Key}}"

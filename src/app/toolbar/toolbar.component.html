@@ -1,22 +1,49 @@
 <div id="Toolbar" class="smalltool" ng-app="routerApp">
-  <div ng-controller="UIRouterController as UIRouter" class="container">
-    <nav>
-      <table id="Toolbar-Table">
-        <tr>
-          <td *ngFor="let obj of UIRouter.objects">
-            <button id="Toolbar-Button-{{obj.Key}}"
-                    class="Toolbar-Button"
-                    uiSref="{{obj.Name}}"
-                    uiSrefActive="selected">
-              <span id="Toolbar-Key-{{obj.Key}}"
-                    class="Toolbar-Class-{{obj.Key}">
-                {{obj.Name}}
-              </span>
-            </button>
-          </td>
-        </tr>
-      </table>
-    </nav>
-  </div>
+  <nav>
+    <table id="Toolbar-Table">
+      <tr id="Toolbar-Row">
+        <td *ngFor="let obj of UIRouter.objects"
+            (mouseover)="UIRouter.select(obj, true);"
+            (mouseleave)="UIRouter.select(obj, false);"
+            class="Toolbar-Data"
+        >
+          <button id="Toolbar-Button-{{obj.Key}}"
+                  class="Toolbar-Button"
+                  uiSref="{{obj.Key}}"
+                  uiSrefActive="selected"
+          >
+            <span id="Toolbar-Key-{{obj.Key}}"
+                  class="Toolbar-Class-{{obj.Key}">
+              {{obj.Name}}
+            </span>
+          </button>
+          <div id="Dropdown-{{obj.Key}}"
+               class="Dropdown-Data"
+               style="display:none;">
+            <ul id="Dropdown-List-{{obj.Key}}"
+                class="Dropdown-List"
+            >
+              <li *ngFor="let opt of UIRouter.options[obj.Key]"
+                  id="Dropdown-Option-{{obj.Key}}-{{opt.Key}}"
+                  class="Dropdown-Option"
+                  (mouseover)="UIRouter.execopt(obj, opt, true);"
+                  (mouseleave)="UIRouter.execopt(obj, opt, false);">
+                <div id="Dropdown-Option-{{opt.Key}}" class="Dropdown-Instance">
+                  <button class="Dropdown-Button"
+                          uiSref="{{opt.Key}}"
+                          uiSrefActive="optioned"
+                  >
+                    <span id="Dropdown-Key-{{opt.Key}}" class="Dropdown-Class">
+                        {{opt.Name}}
+                    </span>
+                  </button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </nav>
   <ui-view></ui-view>
 </div>

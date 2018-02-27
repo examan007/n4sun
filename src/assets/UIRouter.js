@@ -16,7 +16,7 @@ define(["require", "exports"], function(require, exports){
    }
    exports.initUIRouter = function (component) {
        UIRouter.component = component;
-       // config_routerApp();
+       startApplication();
    }
    exports.readSingleFile = function (obj, suffix) {
         readSingleFile(obj, suffix);
@@ -29,11 +29,7 @@ var UIRToolbar = null;
 var UIRDropdown = null;
 function execute_routerApp() {
     UIRouter.component = null;
-    UIRouter.objects = [
-      {Name: 'Search', Key: 'home'},
-      {Name: 'Book', Key: 'about'},
-      {Name: 'Account', Key: 'contact'}
-    ];
+    UIRouter.objects = [];
     UIRouter.results = [];
     UIRouter.options = [];
     UIRouter.ActiveObj = 'default';
@@ -41,6 +37,15 @@ function execute_routerApp() {
     UIRouter.getOptions = function (obj) {
         console.log('getOptions ' + JSON.stringify(obj));
         return (UIRouter.options[obj.Key]);
+    }
+    UIRouter.findObject = function (key) {
+        var ret =  null;
+        UIRouter.objects.forEach( function (obj) {
+            if (obj.Key === key) {
+              ret = obj;
+            }
+        });
+        return (ret);
     }
     UIRouter.update = function () {
         try {
@@ -66,33 +71,34 @@ function execute_routerApp() {
     }
     UIRouter.setOptions =  function (objname) {
         for (obj in UIRouter.options) {
-            // console.log('setOptions(); options=' + JSON.stringify(obj));
-            UIRouter.options[obj].forEach( function (option) {
-                try {
-                    var tag = '#Option' + option.Operation + '-' + option.Key;
-                    // console.log('setOptions(); tag=[' + tag + ']');
-                    if (objname !== option.Operation) {
-                        $(tag).hide();
-                    } else
-                    if (option.Filter === 'hidden') {
-                        $(tag).hide();
-                    } else {
-                        $(tag).show();
-                    }
-                } catch (e) {
-                    console.log('setOptions ' + e.toString());
+            var test = '-' + obj;
+            console.log('setOptions(); options=' + test);
+            try {
+                var tag = '#Dropdown' + test;
+                console.log('setOptions(); tag=[' + tag + '] objname=[' + objname + ']');
+                if (objname !== test) {
+                       $(tag).hide();
+//                   $(tag).css('visibility', 'hidden');
+                } else {
+                       $(tag).show();
+//                   $(tag).css('visibility', 'visible');
                 }
-            });
+            } catch (e) {
+                console.log('setOptions ' + e.toString());
+            }
         }
     }
-    UIRouter.select = function (obj, opt) {
-//           console.log('obj=' + JSON.stringify(obj));
-//           console.log('opt=' + JSON.stringify(opt));
-        UIRouter.setOptions('-' + obj.Key);
+    UIRouter.select = function (obj, flag) {
+        if (flag == true) {
+          console.log('obj=' + JSON.stringify(obj));
+          UIRouter.setOptions('-' + obj.Key);
+        } else {
+          console.log('leave=' + JSON.stringify(obj));
+          UIRouter.setOptions('-');
+        }
     }
     UIRouter.execopt = function (obj, opt, flag) {
-        console.log('obj=' + JSON.stringify(obj));
-        console.log('opt=' + JSON.stringify(opt));
+         UIRouter.select(obj, flag)
     }
     UIRouter.CheckState = '';
     UIRouter.checkClick=  function (event, obj) {
@@ -107,7 +113,8 @@ function execute_routerApp() {
         function initialize() {
             return (function () {
                 UIRouter.initData(UIRToolbar.DataMap.map, UIRDropdown.DataMap.map);
-                run();
+                //run();
+                UIRouter.setOptions('-');
                 function run() {
                     angular.bootstrap(document.getElementById("Account"), ['useApp']);
                     Application.initialize();
@@ -134,97 +141,6 @@ function startApplication() {
             });
         });
     });
-    execute_routerApp();
-    config_routerApp();
-//    addServices();
 }
-function config_routerApp() {
-    console.log('config_routerApp(); ');
-    function construct(name, parent) {
-        optioncomp(name,
-            controller(name, '-' + parent.charAt(0).toUpperCase() + parent.substr(1)));
-        return ({
-            name: name,
-            url: '/' + parent + '/' + name,
-            component: name,
-        });
-    }
-    function create(name) {
-        var obj = construct(name, name);
-        obj.url = '/' + name;
-        return (obj);
-    }
-    states = [
-        create('search'),
-        create('booking'),
-        create('account'),
-        construct('stylist', 'search'),
-        construct('salon', 'search'),
-        construct('client', 'search'),
-        construct('today', 'booking'),
-        construct('week', 'booking'),
-        construct('month', 'booking'),
-        construct('list', 'booking'),
-        construct('event', 'booking'),
-        construct('service', 'booking'),
-        construct('login', 'account'),
-        construct('edit', 'account'),
-        construct('new', 'account')
-    ];
-    function controller(objname, tagname) {
-        return (function () {
-            console.log('component[' + objname + ']');
-            try {
-                var entry = null;
-                if ((entry = UIRDropdown.DataMap.getEntryWithKey(objname, 'Name')) != null) {
-                    console.log('entry=' + JSON.stringify(entry));
-                    Controller.select({
-                        id: 'Dropdown-Option-' + entry.Key,
-                        selected: true
-                    });
-                    Controller.select({
-                        id: 'Toolbar-Option' + tagname,
-                        selected: true
-                    });
-                } else
-                if ((entry = UIRToolbar.DataMap.getEntryWithKey(objname, 'Name')) != null) {
-                    console.log('entry=' + JSON.stringify(entry));
-                    Controller.select({
-                        id: 'Toolbar-Option' + tagname,
-                        selected: true
-                    });
-                } else {
-                }
-            } catch (e) {
-                console.log('controller=' + e.toString());
-            }
-            try {
-                $(UIRouter.ActiveObj).removeClass('activeobj');
-            } catch (e) {
-                console.log('remove' + e.toString());
-            }
-            var tag = '#' + 'Toolbar-Button' + tagname;
-            console.log('tag=[' + tag + ']');
-            try {
-                $(tag).addClass('activeobj');
-                UIRouter.ActiveObj = tag;
-            } catch (e) {
-                console.log('add' + e.toString());
-            }
-            UIRouter.setOptions('-');
-        });
-    }
-    function optioncomp (objname, cntrlfunc) {
-        console.log('optioncomp objname=[' + objname + ']');
-        UIRouterModule.component(objname, {
-          template:  '',
-          controller: cntrlfunc
-        });
-    }
-    UIRouterModule.config(function($stateProvider) {
-        states.forEach( function (state) {
-            $stateProvider.state(state);
-        });
-    });
-}
+
 

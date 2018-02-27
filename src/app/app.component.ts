@@ -31,6 +31,6 @@ export class AppComponent implements OnInit {
         ContactObj.initContacts(this);
     }
     getManager() {
-        return (this.Manager):
+        return (this.Manager);
     }
 }
