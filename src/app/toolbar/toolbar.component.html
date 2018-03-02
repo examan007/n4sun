@@ -10,7 +10,7 @@
         >
           <button id="Toolbar-Button-{{obj.Key}}"
                   class="Toolbar-Button"
-                  uiSref="{{obj.Key}}"
+                  uiSref="{{obj.State}}"
                   uiSrefActive="selected"
           >
             <span id="Toolbar-Key-{{obj.Key}}"
@@ -32,7 +32,7 @@
                   (mouseleave)="UIRouter.execopt(obj, opt, false);">
                 <div id="Dropdown-Option-{{opt.Key}}" class="Dropdown-Instance">
                   <button class="Dropdown-Button"
-                          uiSref="{{opt.Key}}"
+                          uiSref="{{opt.State}}"
                           uiSrefActive="selected"
                   >
                     <span id="Dropdown-Key-{{opt.Key}}" class="Dropdown-Class">

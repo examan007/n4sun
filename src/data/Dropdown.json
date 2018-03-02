@@ -6,7 +6,8 @@
       "Title": "",
       "Operation": "-home",
       "Name": "Stylist",
-      "Table": ""
+      "Table": "",
+      "State": "list"
     },
     {
       "Key": "Client",
@@ -14,7 +15,8 @@
       "Operation": "-home",
       "Filter": "hidden",
       "Name": "Client",
-      "Table": ""
+      "Table": "",
+      "State": "list"
     },
     {
       "Key": "Salon",
@@ -22,7 +24,8 @@
       "Operation": "-home",
       "Filter": "",
       "Name": "Salon",
-      "Table":  ""
+      "Table":  "",
+      "State": "list"
     },
     {
       "Key": "Event",
