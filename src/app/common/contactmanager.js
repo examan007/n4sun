@@ -1,5 +1,6 @@
 define(["require", "exports"], function(require, exports){
    exports.getManager = function () {
+        console.log("ContactManage.isDevice()=[" + ContactManager.isDevice() + ']');
         return (ContactManager);
    }
 });

@@ -116,4 +116,5 @@ button:focus {
     background-color: #000080;
     color: #8E35EF;
     border-color: darkgoldenrod;
+    opacity: 0.66;
 }

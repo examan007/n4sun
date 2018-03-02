@@ -16,6 +16,7 @@ define(["require", "exports"], function(require, exports){
    }
    exports.initUIRouter = function (component) {
        UIRouter.component = component;
+       UIRouter.devicetype = component.getManager().isDevice();
        startApplication();
    }
    exports.readSingleFile = function (obj, suffix) {
@@ -34,6 +35,10 @@ function execute_routerApp() {
     UIRouter.options = [];
     UIRouter.ActiveObj = 'default';
     UIRouter.Current = 'default';
+    UIRouter.devicetype = false;
+    UIRouter.isDevice = function () {
+      return (UIRouter.devicetype);
+    }
     UIRouter.getOptions = function (obj) {
         console.log('getOptions ' + JSON.stringify(obj));
         return (UIRouter.options[obj.Key]);
@@ -70,43 +75,66 @@ function execute_routerApp() {
         UIRouter.update();
     }
     UIRouter.setOptions =  function (objname) {
-        for (obj in UIRouter.options) {
-            var test = '-' + obj;
-            console.log('setOptions(); options=' + test);
-            try {
-                var tag = '#Dropdown' + test;
-                console.log('setOptions(); tag=[' + tag + '] objname=[' + objname + ']');
-                if (objname !== test) {
-                       $(tag).hide();
-//                   $(tag).css('visibility', 'hidden');
-                } else {
-                       $(tag).show();
-//                   $(tag).css('visibility', 'visible');
-                }
-            } catch (e) {
-                console.log('setOptions ' + e.toString());
-            }
+      for (option in UIRouter.options) {
+        var options = UIRouter.options[option];
+        for(elem in options) {
+          var obj = options[elem];
+          try {
+              var test = obj.Operation;
+              var tag = '#Dropdown' + test + '-' + obj.Key;
+              if (objname === test) {
+                  //console.log('setOptions();' +  JSON.stringify(obj));
+                  //console.log('setOptions(); option=[' + test + '] opt=[' + option + ']');
+                  //console.log('setOptions(); tag=[' + tag + '] objname=[' + objname + ']');
+                  var filter = new String(obj.Filter);
+                  if (typeof(filter) === 'undefined') {
+                     $(tag).show();
+                  } else
+                  if (filter.indexOf('hidden') >= 0) {
+                     $(tag).hide();
+                  } else
+                  if (filter.indexOf('private') < 0) {
+                     $(tag).show();
+                  } else
+                  if (Controller.UserId.indexOf('nginx') >= 0) {
+                     $(tag).hide();
+                  } else {
+                     $(tag).show();
+                  }
+              } else {
+                   $(tag).hide();
+              }
+          } catch (e) {
+              console.log('setOptions ' + e.toString());
+          }
         }
+      }
     }
+    UIRouter.CheckState = '';
     UIRouter.select = function (obj, flag) {
-        if (flag == true) {
-          console.log('obj=' + JSON.stringify(obj));
-          UIRouter.setOptions('-' + obj.Key);
-        } else {
+        if (flag == false) {
           console.log('leave=' + JSON.stringify(obj));
           UIRouter.setOptions('-');
+          UIRouter.CheckState = '';
+        } else
+        if (UIRouter.CheckState === obj.Key) {} else {
+          console.log('obj=' + JSON.stringify(obj));
+          UIRouter.setOptions('-' + obj.Key);
         }
     }
     UIRouter.execopt = function (obj, opt, flag) {
          UIRouter.select(obj, flag)
     }
-    UIRouter.CheckState = '';
     UIRouter.checkClick=  function (event, obj) {
-        if (ContactManager.isDevice == false) { } else
+        console.log('checkClick();' + JSON.stringify(obj));
+        if (UIRouter.isDevice() == false) {
+            console.log('checkClick() isDevice=false;' + JSON.stringify(obj));
+            UIRouter.setOptions('-');
+        } else
         if (obj.Key === UIRouter.CheckState) { } else {
             event.preventDefault();
-            UIRouter.CheckState = obj.Key;
         }
+        UIRouter.CheckState = obj.Key;
     }
     UIRouter.initializeComplete = function () {
         initialize()();

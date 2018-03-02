@@ -11,8 +11,10 @@ import { UIRouterModule } from "@uirouter/angular";
 import { HomeComponent } from './components';
 import { AboutComponent } from './components';
 import { ContactComponent } from './components';
+import { ListComponent } from './components';
 @NgModule({
   declarations: [
+    ListComponent,
     AppComponent,
     HomeComponent,
     AboutComponent,
